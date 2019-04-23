@@ -1,15 +1,26 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./Name.css";
+import store, { UPDATE_NAME, UPDATE_CATEGORY } from '../../store';
 
 class Name extends Component {
   constructor(props) {
     super(props);
+    const reduxState = store.getState();
     this.state = {
-      name: '',
-      category: ''
+      name: reduxState.name,
+      category: reduxState.category,
     };
   }
+
+  // componentDidMount() {
+  //   store.subscribe(() => {
+  //     this.setState({
+  //       store: reduxState.getState()
+  //     })
+  //   })
+  // }
+
   handleNameChange(nameVal) {
     this.setState({
       name: nameVal
@@ -22,7 +33,14 @@ class Name extends Component {
     });
   }
   saveChanges() {
-    // Send data to Redux state
+    store.dispatch({
+        type: UPDATE_NAME, 
+        payload: this.state.name
+    });
+    store.dispatch({
+        type: UPDATE_CATEGORY, 
+        payload: this.state.category
+    });
   }
   render() {
     return (
